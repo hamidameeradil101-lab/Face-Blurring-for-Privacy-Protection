@@ -1,40 +1,104 @@
 # Face Blurring for Privacy Protection
 
-## Project Overview
+A computer-vision pipeline that detects human faces in images and automatically anonymizes them using Gaussian blur.
 
-This project presents an automated face-blurring system designed to protect privacy in images by detecting and anonymizing human faces. With increasing concerns around digital privacy, the system helps prevent identity exposure in shared media such as social platforms, news content, and professional use.
+The project demonstrates an end-to-end privacy-preservation workflow using OpenCV, including face detection, image preprocessing, anonymization, evaluation, and performance analysis.
 
-## Objectives
-Detect human faces in images automatically
-Improve image quality to enhance detection accuracy
-Extract and isolate face regions
-Apply blurring to protect identity
- 
-## Methodology
+## Features
 
-The system follows a simple image processing pipeline:
+* Haar Cascade face detection
+* Image preprocessing and histogram equalization
+* Gaussian face anonymization
+* Multiple-face handling
+* Quantitative detection evaluation using IoU
+* Precision, recall, and F1-score
+* Processing-time measurement
+* Qualitative analysis of successful and failed detections
 
-### Preprocessing
-- Convert image to grayscale.
 
-- Apply histogram equalization for contrast enhancement.
+## Approach
 
-- Reduce noise using Gaussian blur.
+The pipeline follows four main stages:
 
-### Face Detection
--Use Haar Cascade classifier to detect faces.
-### Segmentation
--Extract bounding box coordinates of detected faces
-### Face Blurring
--Apply Gaussian blur to detected face regions only.
+```text
+Input Image
+     ↓
+Preprocessing
+     ↓
+Face Detection
+     ↓
+Face Blurring
+     ↓
+Protected Image
+```
 
--Merge blurred regions back into the original image.
+Face detection is performed using OpenCV's Haar Cascade classifier. Detected face regions are then blurred using a Gaussian filter.
 
-## Techniques Used
--Image processing (OpenCV).
+## Evaluation
 
--Haar Cascade face detection.
+The system was evaluated on a subset of the **WIDER FACE validation dataset** using ground-truth face bounding boxes.
 
--Gaussian Blur filtering.
+Evaluation includes:
 
--Basic segmentation.
+* Intersection over Union (IoU)
+* True positives
+* False positives
+* False negatives
+* Precision
+* Recall
+* F1-score
+* Detection time
+
+The baseline evaluation achieved:
+
+| Metric    | Result |
+| --------- | -----: |
+| Precision | 74.26% |
+| Recall    |  8.15% |
+| F1-score  | 14.69% |
+
+The results demonstrate reasonable precision but limited recall, particularly in crowded and difficult scenes. This highlights the limitations of traditional Haar Cascade detection and provides a baseline for future improvements.
+
+## Limitations
+
+The current implementation uses a traditional Haar Cascade detector. Performance can decrease significantly with:
+
+* Small faces
+* Non-frontal faces
+* Occlusion
+* Crowded scenes
+* Difficult lighting conditions
+
+The project therefore represents a **baseline privacy-preservation system**, rather than a production-ready face anonymization solution.
+
+A future version could replace the Haar Cascade detector with a modern deep-learning-based face detector.
+
+## Dataset
+
+The evaluation uses the WIDER FACE validation dataset.
+
+The dataset is **not included in this repository**. Users should download it from the official WIDER FACE source and comply with its licensing requirements.
+
+## Running the Project
+
+Install the required dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Then run the notebooks in order:
+
+1. `01_Face_Blurring_Pipeline.ipynb`
+2. `02_Face_Blurring_Evaluation.ipynb`
+
+The notebooks demonstrate the complete pipeline and its evaluation.
+
+## Technologies
+
+* Python
+* OpenCV
+* NumPy
+* Matplotlib
+* Jupyter Notebook
+* WIDER FACE
